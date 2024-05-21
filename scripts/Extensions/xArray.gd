@@ -43,3 +43,7 @@ static func mean(values): #WORKS WITH SCALARS AND VECTORS
 
 static func contains(a, b): #array a contains b
 	return b.all(func(x): return x in a)
+
+static func pop_random(array): return array.pop_at(randi_range(0, array.size()-1))
+
+static func pop(array, item): return array.pop_at(array.find(item))
