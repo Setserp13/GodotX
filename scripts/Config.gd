@@ -9,7 +9,7 @@ func _init():
 	if ResourceLoader.exists(file_path):
 		file.load(file_path)
 
-static func get_value(player, key, value):
+static func get_value(player, key):
 	return _instance.file.get_value(player, key)
 
 static func set_value(player, key, value):
