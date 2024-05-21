@@ -1,4 +1,4 @@
-class Config:
+class_name Config
 
 static var file_path = 'user://config.cfg'
 var file
