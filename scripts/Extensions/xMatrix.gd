@@ -33,7 +33,7 @@ static func index_of(matrix, item):
 static func transpose(matrix):
 	return fromfun(matrix.size(), matrix[0].size(), func(i, j): return matrix[j][i])
 
-func from_csv(content, sep=';'):
+static func from_csv(content, sep=';'):
 	var result = []
 	for x in content.split('\r\n'):
 		if x == '':
