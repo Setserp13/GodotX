@@ -1,22 +1,28 @@
 class_name Config
 
-static var file_path = 'user://config.cfg'
-var file
-static var _instance = null
+static var instance:
+	get:
+		if instance == null:
+			instance = Config.new()
+		return instance
+
+static var file_path = 'user://config.cfg'#'res://config.cfg'
+
+var _file
 
 func _init():
-	file = ConfigFile.new()
-	if ResourceLoader.exists(file_path):
-		file.load(file_path)
+	self._file = ConfigFile.new()
+	var err = self._file.load(file_path)
+	# If the file didn't load, ignore it.
+	if err != OK:
+		return
 
-static func get_value(player, key):
-	return _instance.file.get_value(player, key)
+static func set_value(section, key, value):
+	instance._file.set_value(section, key, value)
 
-static func set_value(player, key, value):
-	_instance.file.set_value(player, key, value)
-	_instance.file.save(file_path)
+static func get_value(section, key, default=null):
+	return instance._file.get_value(section, key, default)
 
-static func get_instance():
-	if _instance == null:
-		_instance = Config.new()
-	return _instance
+static func save():
+	print(file_path)
+	instance._file.save(file_path)
