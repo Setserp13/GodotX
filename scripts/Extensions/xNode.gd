@@ -16,6 +16,7 @@ static func ancestors(node):
 static func descendants(node):
 	var result = []
 	for x in node.get_children():
+		result.append(x)
 		result.append_array(descendants(x))
 	return result
 	
