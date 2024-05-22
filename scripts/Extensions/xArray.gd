@@ -49,3 +49,24 @@ static func pop_random(array): return array.pop_at(randi_range(0, array.size()-1
 static func pop(array, item): return array.pop_at(array.find(item))
 
 static func remove(array, item): array.remove_at(array.find(item))
+
+static func update(array, mapping, condition):
+	for i in range(array.size()):
+		if condition.call(array[i], i):
+			array[i] = mapping.call(array[i], i)
+	return array
+
+static func replace(array, old_value, new_value):
+	return update(array, func(x, i): return new_value, func(x, i): return x == old_value)
+
+static func remove_where(array, condition):
+	for i in range(array.size()-1, -1, -1):
+		if condition.call(array[i], i):
+			array.remove_at(i)
+
+static func to_distinct(array):
+	var result = []
+	for x in array:
+		if x not in result:
+			result.append(x)
+	return result
