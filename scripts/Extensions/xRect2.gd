@@ -53,3 +53,15 @@ static func min_max(min, max): return Rect2(min, max - min)
 
 static func aabb(a, b): #axis-aligned minimum bounding box
 	return min_max(xVector2.minv(a.position, b.position), xVector2.maxv(a.end, b.end))
+
+static func chebyshev_distance(a, b):
+	# Calculate the horizontal and vertical distances between the rectangles
+	var dx = max(a.position.x - b.end.x, b.position.x - a.end.x, 0)
+	var dy = max(a.position.y - b.end.y, b.position.y - a.end.y, 0)
+	return max(dx, dy)
+
+	"""# Return the Euclidean distance if the rectangles are not overlapping
+	if dx > 0 or dy > 0:
+		return sqrt(dx * dx + dy * dy)
+	# If the rectangles overlap, the distance is zero
+	return 0"""
