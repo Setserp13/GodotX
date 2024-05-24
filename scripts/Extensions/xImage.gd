@@ -49,11 +49,11 @@ static func get_rows(image, predicate):
 	return result
 
 static func get_columns_better(image, predicate):
-	return merge_horizontally(get_columns(image, predicate), xRect2.left_right_coincide)
+	return merge_where(get_columns(image, predicate), xRect2.left_right_coincide)
 	#return merge_horizontally(get_columns(image, predicate))
 
 static func get_row_better(image, predicate):
-	return merge_vertically(get_rows(image, predicate), xRect2.bottom_top_coincide)
+	return merge_where(get_rows(image, predicate), xRect2.bottom_top_coincide)
 	#return merge_vertically(get_rows(image, predicate))
 
 static func get_pixel(image, i, j, default_value=null):
