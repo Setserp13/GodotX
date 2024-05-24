@@ -56,10 +56,11 @@ static func get_row_better(image, predicate):
 	return merge_where(get_rows(image, predicate), xRect2.bottom_top_coincide)
 	#return merge_vertically(get_rows(image, predicate))
 
+static func in_range(image, i, j):
+	return i > -1 and i < image.get_width() and j > -1 and j < image.get_height()
+
 static func get_pixel(image, i, j, default_value=null):
-	if i > -1 and i < image.get_width() and j > -1 and j < image.get_height():
-		return image.get_pixel(i, j)
-	return default_value
+	return image.get_pixel(i, j) if in_range(image, i, j) else default_value
 
 static func merge_where(rects, condition): #condition = (a:rect, b:rect) -> bool
 	for i in range(rects.size()-1, 0, -1):
