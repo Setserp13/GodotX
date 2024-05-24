@@ -49,17 +49,28 @@ static func get_rows(image, predicate):
 	return result
 
 static func get_columns_better(image, predicate):
-	return merge_horizontally(get_columns(image, predicate))
+	return merge_horizontally(get_columns(image, predicate), xRect2.left_right_coincide)
+	#return merge_horizontally(get_columns(image, predicate))
 
 static func get_row_better(image, predicate):
-	return merge_vertically(get_rows(image, predicate))
+	return merge_vertically(get_rows(image, predicate), xRect2.bottom_top_coincide)
+	#return merge_vertically(get_rows(image, predicate))
 
 static func get_pixel(image, i, j, default_value=null):
 	if i > -1 and i < image.get_width() and j > -1 and j < image.get_height():
 		return image.get_pixel(i, j)
 	return default_value
 
-static func merge_horizontally(rects):
+static func merge_where(rects, condition): #condition = (a:rect, b:rect) -> bool
+	for i in range(rects.size()-1, 0, -1):
+		for j in range(i-1, -1, -1):
+			if condition.call(rects[i], rects[j]):
+				rects[j] = xRect2.aabb(rects[i], rects[j])
+				rects.remove_at(i)
+				break
+	return rects
+
+"""static func merge_horizontally(rects):
 	for i in range(rects.size()-1, 0, -1):
 		for j in range(i-1, -1, -1):
 			if xRect2.left_right_coincide(rects[i], rects[j]):
@@ -75,4 +86,4 @@ static func merge_vertically(rects):
 				rects[j] = xRect2.aabb(rects[i], rects[j])
 				rects.remove_at(i)
 				break
-	return rects
+	return rects"""
