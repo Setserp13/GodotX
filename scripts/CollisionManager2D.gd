@@ -47,7 +47,7 @@ func process_triggers():
 static func get_or_add(body): #if body already have one, just returns it
 	var result = xNode.get_component(body, CollisionManager2D)
 	if result == null:
-		result = xNode.create_child(body, CollisionManager2D, {'_body': body})
+		result = xNode.create_child(body, CollisionManager2D)#, {'_body': body})
 	return result
 
 static func on_collision_enter(body, callback):
