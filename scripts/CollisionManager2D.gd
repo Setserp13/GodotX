@@ -10,6 +10,10 @@ var _on_trigger_exit = Event1.new()
 var _triggers = []
 var _body
 
+func _ready():
+	if _body == null:
+		_body = get_parent()
+
 func _process(delta):
 	process_collisions()
 	process_triggers()
