@@ -1,13 +1,18 @@
 class_name x2D
 
-static func get_global_size(sprite): return sprite.texture.get_size() * sprite.global_scale
+static func get_region_size(sprite):
+	if sprite.region_enabled:
+		return sprite.region_rect.size
+	return sprite.texture.get_size()
+
+static func get_global_size(sprite): return get_region_size(sprite) * sprite.global_scale
 	
 static func get_global_extents(sprite): return get_global_size(sprite) * 0.5
 
 static func get_global_rect(sprite):
 	return Rect2(sprite.global_position - get_global_extents(sprite), get_global_size(sprite))
 	
-static func get_size(sprite): return sprite.texture.get_size() * sprite.scale
+static func get_size(sprite): return get_region_size(sprite) * sprite.scale
 
 static func get_extents(sprite): return get_size(sprite) * 0.5
 
