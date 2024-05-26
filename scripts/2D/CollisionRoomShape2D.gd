@@ -26,13 +26,13 @@ func _process(delta):
 
 func update():
 	get_child(0).shape.size = Vector2(thickness, size.y)
-	get_child(0).position = Vector2.RIGHT * size.x * 0.5
+	get_child(0).position = Vector2.RIGHT * (size.x + thickness) * 0.5
 	
 	get_child(1).shape.size = Vector2(thickness, size.y)
-	get_child(1).position = Vector2.LEFT * size.x * 0.5
+	get_child(1).position = Vector2.LEFT * (size.x + thickness) * 0.5
 	
 	get_child(2).shape.size = Vector2(size.x, thickness)
-	get_child(2).position = Vector2.UP * size.y * 0.5
+	get_child(2).position = Vector2.UP * (size.y + thickness) * 0.5
 	
 	get_child(3).shape.size = Vector2(size.x, thickness)
-	get_child(3).position = Vector2.DOWN * size.y * 0.5
+	get_child(3).position = Vector2.DOWN * (size.y + thickness) * 0.5
