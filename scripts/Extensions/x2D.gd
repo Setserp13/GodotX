@@ -123,6 +123,6 @@ static func get_intersecting_areas(collider: CollisionShape2D) -> Array:
 	query.collide_with_areas = true
 	var query_results = space_state.intersect_shape(query)
 	for item in query_results:
-		if item.collider is Area2D:
+		if item.collider is Area2D and item.collider != collider.get_parent():
 			result.append(item.collider)
 	return result
