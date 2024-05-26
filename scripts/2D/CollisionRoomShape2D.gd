@@ -3,7 +3,11 @@ extends Node
 
 class_name CollisionRoomShape2D
 
-@export var size = Vector2.ONE * 1000
+@export var size = Vector2.ONE * 1000:
+	get: return size
+	set(value):
+		size = value
+		update()
 @export var thickness = 100:
 	get: return thickness
 	set(value):
