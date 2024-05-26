@@ -17,14 +17,19 @@ class_name CollisionRoomShape2D
 func _process(delta):
 	if not Engine.is_editor_hint():
 		return
-	
+	generate_walls()
+	update()
+
+func generate_walls():
 	var prefab = CollisionShape2D.new()
 	xNode.resize(self, 4, prefab)
 	for x in get_children():
 		x.shape = RectangleShape2D.new()
-	update()
 
 func update():
+	if get_child_count() < 4:
+		generate_walls()
+
 	get_child(0).shape.size = Vector2(thickness, size.y)
 	get_child(0).position = Vector2.RIGHT * (size.x + thickness) * 0.5
 	
