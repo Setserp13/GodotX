@@ -2,6 +2,8 @@ extends Node #EventNode
 
 class_name CollisionManager2D #manage all collisions and triggers of an object
 
+@export var collision = true
+@export var trigger = true
 var _on_collision_enter = Event1.new()
 var _on_collision_exit = Event1.new()
 var _collisions = []
@@ -15,8 +17,10 @@ func _ready():
 		_body = get_parent()
 
 func _process(delta):
-	process_collisions()
-	process_triggers()
+	if collision:
+		process_collisions()
+	if trigger:
+		process_triggers()
 
 func process_collisions():
 	var collisions = x2D.get_collisions(_body)
