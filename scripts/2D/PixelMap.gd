@@ -5,6 +5,13 @@ extends Node2D
 
 enum RenderMode {CELLS, COLUMNS, ROWS, COLUMNS_BETTER, ROWS_BETTER}
 
+@export var mapping = {
+	Color.BLACK: Object.new(),
+	Color.RED: Object.new(),
+	Color.GREEN: Object.new(),
+	Color.BLUE: Object.new()
+}
+@export var tiling_per_scale = Vector2.ONE
 @export var texture_map : Texture2D
 @export var use_cell_size = false
 @export var cell_size = Vector2(100, 100)
@@ -15,13 +22,16 @@ enum RenderMode {CELLS, COLUMNS, ROWS, COLUMNS_BETTER, ROWS_BETTER}
 
 @export var top : Texture2D
 
-static func instantiate_one(rect, parent, tile, cell_size=null):
+static func instantiate_one(rect, parent, tile, tiling_per_scale=Vector2.ONE, cell_size=null):
 	#PREFAB MUST BE AT SCALE 1
 	#print(tile)
 	var prefab = Sprite2D.new()
 	prefab.texture = tile
 	var body = xNode.create_child(parent, StaticBody2D)
 	var sprite = TiledSprite.create(tile)
+	sprite.texture_filter = parent.texture_filter
+	sprite.tiling_per_scale = tiling_per_scale
+	print(tiling_per_scale)
 	xNode.append_child(body, sprite)
 	sprite.centered = true
 	if cell_size != null:
@@ -36,9 +46,9 @@ static func instantiate_one(rect, parent, tile, cell_size=null):
 	body.name = prefab.name + '_' + str(rect.position[0]) + '_' + str(rect.position[1])
 	#print(pixel)
 
-static func instantiate_all(rects, parent, tile, cell_size=null):
+static func instantiate_all(rects, parent, tile, tiling_per_scale=Vector2.ONE, cell_size=null):
 	for i in range(rects.size()):
-		instantiate_one(rects[i], parent, tile, cell_size)
+		instantiate_one(rects[i], parent, tile, tiling_per_scale, cell_size)
 		
 func _process(delta):
 	if not Engine.is_editor_hint():
@@ -56,11 +66,15 @@ func _process(delta):
 		RenderMode.COLUMNS_BETTER: xImage.get_columns_better,
 		RenderMode.ROWS_BETTER: xImage.get_row_better
 	}[render_mode]
-	var rects = get_rects.call(image, func(x, i, j): return x == Color.BLACK)
-	for i in range(rects.size()):
-		rects[i].position[1] = image.get_size()[1] - rects[i].position[1] #'cuz godot is top to bottom
-	#print(rects)
-	instantiate_all(rects, self, tile)
+	for k in mapping:
+		if not is_instance_of(mapping[k], Texture2D):
+			continue
+		print(mapping[k])
+		var rects = get_rects.call(image, func(x, i, j): return x == k)
+		for i in range(rects.size()):
+			rects[i].position[1] = image.get_size()[1] - rects[i].position[1] #'cuz godot is top to bottom
+		#print(rects)
+		instantiate_all(rects, self, mapping[k], tiling_per_scale)
 
 	#GENERATE TOP
 	for x in get_children():
