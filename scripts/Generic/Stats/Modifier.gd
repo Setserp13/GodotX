@@ -1,7 +1,7 @@
 class_name Modifier
 
 var order = 0
-var stats : ObservableCollection
+var stats = ObservableCollection.new()
 var on_modify = func (x): return x
 var on_revert = func (x): return x
 var on_change = Event2.new()
