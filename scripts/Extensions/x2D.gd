@@ -89,6 +89,10 @@ static func fit_collider_to_sprite(collider, sprite, l=0.0, r=0.0, d=0.0, u=0.0,
 		return
 	var rect = xRect2.padding(get_rect(sprite), l, r, d, u, relative)
 	var extents = rect.size * 0.5
+	if collider.get_parent() == sprite:
+		collider.position = Vector2.ZERO
+	else:
+		collider.position = sprite.position
 	match collider.shape.get_class():
 		"CapsuleShape2D":
 			if extents.y > extents.x:
