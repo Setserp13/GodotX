@@ -3,8 +3,8 @@ class_name ObservableCollection
 var items = []
 var on_change = Event2.new() #(list of removed elements, list of added elements)
 
-func _init(items):
-	self.items = items
+func _init(items=null):
+	self.items = [] if items == null else items
 	
 func add(item):
 	items.append(item)
