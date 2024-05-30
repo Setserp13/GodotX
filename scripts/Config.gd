@@ -24,5 +24,5 @@ static func get_value(section, key, default=null):
 	return instance._file.get_value(section, key, default)
 
 static func save():
-	print(file_path)
+	#print(file_path)
 	instance._file.save(file_path)
