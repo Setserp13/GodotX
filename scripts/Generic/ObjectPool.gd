@@ -9,7 +9,7 @@ func _init(prefab):
 func pick():
 	if _pool.size() > 0:
 		return _pool.pop_at(0)
-	return prefab.instantiate(true)
+	return prefab.duplicate(4)
 
 func release(item):
 	_pool.append(item)
