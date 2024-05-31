@@ -80,7 +80,7 @@ func generate(texture_map):
 	for i in range(rects.size()):
 		rects[i].position[1] = image.get_size()[1] - rects[i].position[1] #'cuz godot is top to bottom
 		#print(rects)
-	instantiate_all(rects, self, tile, tiling_per_scale, slicing, Area2D if collision_mode == CollisionMode.AREA else StaticBody2D if collision_mode == CollisionMode.BODY else null)
+	instantiate_all(rects, self, tile, tiling_per_scale, slicing, Area2D if collision_mode == CollisionMode.AREA else StaticBody2D if collision_mode == CollisionMode.BODY else null, cell_size if use_cell_size else null)
 
 	#GENERATE TOP
 	for x in get_children():
