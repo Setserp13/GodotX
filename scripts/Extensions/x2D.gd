@@ -31,23 +31,23 @@ static func scale_relative(transform, value, pivot):
 	transform.scale = value
 	transform.position = pivot + (delta * value) / old_scale
 
-static func set_size(sprite, value : Vector2):	sprite.scale = value / sprite.texture.get_size()
+static func set_size(sprite, value : Vector2):	sprite.scale = value / get_region_size(sprite)
 
 static func set_global_size(sprite, value : Vector2):
-	sprite.global_scale = value / sprite.texture.get_size()
+	sprite.global_scale = value / get_region_size(sprite)
 
 static func set_size_component(sprite, index, value : float, preserve_aspect=true):
 	if preserve_aspect:
-		sprite.scale = (value / sprite.texture.get_size()[index]) * Vector2(1, 1)
+		sprite.scale = (value / get_region_size(sprite)[index]) * Vector2(1, 1)
 	else:
-		sprite.scale[index] = value / sprite.texture.get_size()[index]
+		sprite.scale[index] = value / get_region_size(sprite)[index]
 		#print(sprite.scale)
 
 static func set_global_size_component(sprite, index, value : float, preserve_aspect=true):
 	if preserve_aspect:
-		sprite.global_scale = (value / sprite.texture.get_size()[index]) * Vector2(1, 1)
+		sprite.global_scale = (value / get_region_size(sprite)[index]) * Vector2(1, 1)
 	else:
-		sprite.global_scale[index] = value / sprite.texture.get_size()[index]
+		sprite.global_scale[index] = value / get_region_size(sprite)[index]
 		#print(sprite.scale)
 
 static func denormalize_point(sprite, value):
