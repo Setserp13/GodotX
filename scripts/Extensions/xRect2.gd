@@ -9,10 +9,10 @@ static func normalize_vector(rect, value): return value / rect.size
 static func denormalize_vector(rect, value): return rect.size * value
 
 static func normalize_rect(rect, value):
-	return Rect2(normalize_point(rect, value), normalize_vector(rect, value))
+	return Rect2(normalize_point(rect, value.position), normalize_vector(rect, value.size))
 
 static func denormalize_rect(rect, value):
-	return Rect2(denormalize_point(rect, value), denormalize_vector(rect, value))
+	return Rect2(denormalize_point(rect, value.position), denormalize_vector(rect, value.size))
 
 static func absolute_padding(rect, l=0.0, r=0.0, d=0.0, u=0.0):
 	return Rect2(rect.position + Vector2(l, d), rect.size - Vector2(l + r, d + u))
