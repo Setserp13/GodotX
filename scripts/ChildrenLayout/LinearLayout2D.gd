@@ -14,5 +14,5 @@ func update_child(delta, x, i):
 	if immediate:
 		x.position = target
 	else:
-		x.position = move_toward(x.position, target, speed)
+		x.position = x.position.move_toward(target, speed)
 	return x.position == target
