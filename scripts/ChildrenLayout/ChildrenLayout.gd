@@ -36,6 +36,8 @@ func update_child(delta, x, i):
 		x.rotation = move_toward(x.rotation, target_rotation, deg_to_rad(angular_speed))
 	return x.position == target and x.rotation == target_rotation
 
+#func get_target_properties(i): return {'position': Vector2.ZERO, 'rotation': 0.0}
+
 func get_position(i): return Vector2.ZERO
 
 func get_rotation(i): return 0.0
