@@ -8,14 +8,4 @@ class_name AngularLayout2D
 @export var angular_speed = 180
 #@export var z_delta = -0.01
 
-func update_child(delta, x, i):
-	var angle = _cell_size * i
-	var target = xMath.polar_to_cartesian(radius, angle) + center
-	var target_rotation = angle - PI / 2
-	if Engine.is_editor_hint():
-		x.position = target
-		x.rotation = target_rotation
-	else:
-		x.position = move_toward(x.position, target, speed)
-		x.rotation = rotate_toward(x.rotation, target_rotation, deg_to_rad(angular_speed))
-	return x.position == target and x.rotation == target_rotation
+func get_rotation(i): return angle - PI / 2
