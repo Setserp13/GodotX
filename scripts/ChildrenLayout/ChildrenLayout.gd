@@ -7,6 +7,9 @@ class_name ChildrenLayout
 @export var enabled = true
 @export var disable_when_finished = false
 @export var ignore_inactive = true
+@export var immediate = false
+@export var speed = 100
+@export var angular_speed = 180
 
 func on_children_changed():
 	enabled = true
@@ -23,4 +26,16 @@ func _process(delta):
 		enabled = false
 
 func update_child(delta, x, i):
-	return true
+	var target = get_position(i)
+	var target_rotation = get_rotation(i)
+	if Engine.is_editor_hint() or immediate:
+		x.position = target
+		x.rotation = target_rotation
+	else:
+		x.position = move_toward(x.position, target, speed)
+		x.rotation = rotate_toward(x.rotation, target_rotation, deg_to_rad(angular_speed))
+	return x.position == target and x.rotation == target_rotation
+
+func get_position(i): return Vector2.ZERO
+
+func get_rotation(i): return 0.0
