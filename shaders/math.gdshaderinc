@@ -69,11 +69,25 @@ vec4 sprite_mask_2D(sampler2D tex, vec2 uv, vec2 tiling, vec2 offset, int mode)
 	return c;
 }
 
+float sqr_magnitude(vec2 x)
+{
+	return x.x * x.x + x.y * x.y;
+}
 
+float magnitude(vec2 x)
+{
+	return sqrt(sqr_magnitude(x));
+}
 
+float ellipse(vec2 x, vec2 a)
+{
+	return (x.x * x.x) / (a.x * a.x) + (x.y * x.y) / (a.y * a.y);
+}
 
-
-
+float lerp(float a, float b, float t) { return a + (b - a) * t; }
+vec2 lerp2(vec2 a, vec2 b, float t) { return a + (b - a) * t; }
+vec3 lerp3(vec3 a, vec3 b, float t) { return a + (b - a) * t; }
+vec4 lerp4(vec4 a, vec4 b, float t) { return a + (b - a) * t; }
 
 
 
