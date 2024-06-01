@@ -32,7 +32,7 @@ func update_child(delta, x, i):
 		x.position = target
 		x.rotation = target_rotation
 	else:
-		x.position = move_toward(x.position, target, speed)
+		x.position = x.position.move_toward(target, speed)
 		x.rotation = rotate_toward(x.rotation, target_rotation, deg_to_rad(angular_speed))
 	return x.position == target and x.rotation == target_rotation
 
