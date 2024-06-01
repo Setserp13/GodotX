@@ -1,0 +1,1 @@
+git pull https://github.com/Setserp13/GodotX.git main
