@@ -14,9 +14,17 @@ enum RenderMode {CELLS, COLUMNS, COLUMNS_BETTER, ROWS, ROWS_BETTER}
 @export var cell_size = Vector2(100, 100)
 @export var collision_mode = CollisionMode.BODY
 @export var render_mode = RenderMode.ROWS_BETTER
-
+@export var ignore = false
 @export var top : Texture2D
 
+
+static func get_cells(texture, cell_count):
+	var result = []
+	for i in range(cell_count[0]):
+		for j in range(cell_count[1]):
+			result.append(get_cell(texture, cell_count, Vector2(i, j)))
+	return result
+	
 static func get_cell(texture, cell_count, index):
 	var cell_size = texture.get_size() / cell_count
 	return Rect2(cell_size * index, cell_size)
@@ -24,17 +32,20 @@ static func get_cell(texture, cell_count, index):
 static func set_rect(rect, body, cell_size=null):
 	var sprite = xNode.get_component(body, Sprite2D)
 	var base_size = x2D.get_region_size(sprite) if cell_size == null else cell_size
+
 	sprite.centered = true
 	if cell_size == null:
 		sprite.scale = rect.size
 	else:
+		sprite.use_cell_size = true
+		sprite.cell_size = cell_size
 		x2D.set_global_size(sprite, cell_size * rect.size)
 	body.position = rect.position * base_size
 	body.position += base_size * 0.5 * rect.size * Vector2(1, -1)
 	body.position[1] *= -1
 
-static func instantiate_one(rect, parent, tile, tiling_per_scale=Vector2.ONE, slicing = Vector2.ONE, collision_type=StaticBody2D, cell_size=null):
-	var sprite = TiledSprite.create(tile)
+static func instantiate_one(rect, parent, tile, tiling_per_scale=Vector2.ONE, region_rect = null, collision_type=StaticBody2D, cell_size=null):
+	var sprite = TiledSpriteRegion.create(tile)#TiledSprite.create(tile)
 	var body = null
 	if collision_type == null:
 		body = sprite
@@ -44,12 +55,9 @@ static func instantiate_one(rect, parent, tile, tiling_per_scale=Vector2.ONE, sl
 		xNode.append_child(body, sprite)
 	sprite.texture_filter = parent.texture_filter
 	sprite.tiling_per_scale = tiling_per_scale
-	if slicing != Vector2.ONE:
+	if region_rect != null:
 		sprite.region_enabled = true
-		var index = Vector2.ZERO
-		for i in range(2):
-			index[i] = randi_range(0, slicing[i] - 1)
-		sprite.region_rect = get_cell(sprite.texture, slicing, index)
+		sprite.region_rect = region_rect
 	set_rect(rect, body, cell_size)
 	#body.position.y -= sprite.texture.size()[1]
 	if collision_type == null:
@@ -60,22 +68,31 @@ static func instantiate_one(rect, parent, tile, tiling_per_scale=Vector2.ONE, sl
 		x2D.add_collider(body, RectangleShape2D)
 		body.add_to_group('ground')
 
-static func instantiate_all(rects, parent, tile, tiling_per_scale=Vector2.ONE, slicing = Vector2.ONE, collision_type=StaticBody2D, cell_size=null):
+static func instantiate_all(rects, parent, tile, tiling_per_scale=Vector2.ONE, slicing = null, collision_type=StaticBody2D, cell_size=null):
+	var region_rect = slicing
 	for i in range(rects.size()):
-		instantiate_one(rects[i], parent, tile, tiling_per_scale, slicing, collision_type, cell_size)
+		if slicing is Vector2:
+			var index = Vector2.ZERO
+			for j in range(2):
+				index[j] = randi_range(0, slicing[j] - 1)
+			region_rect = get_cell(tile, slicing, index)
+			#print([tile.get_size(), index, region_rect])
+		instantiate_one(rects[i], parent, tile, tiling_per_scale, region_rect, collision_type, cell_size)
 
+var get_rects:
+	get:
+		return {
+			RenderMode.CELLS: xImage.get_cells,
+			RenderMode.COLUMNS: xImage.get_columns,
+			RenderMode.ROWS: xImage.get_rows,
+			RenderMode.COLUMNS_BETTER: xImage.get_columns_better,
+			RenderMode.ROWS_BETTER: xImage.get_rows_better
+		}[render_mode]
 
 func generate(texture_map):
 	xNode.clear(self)
 	#foreach(texture.get_image(), inst)
 	var image = texture_map.get_image()
-	var get_rects = {
-		RenderMode.CELLS: xImage.get_cells,
-		RenderMode.COLUMNS: xImage.get_columns,
-		RenderMode.ROWS: xImage.get_rows,
-		RenderMode.COLUMNS_BETTER: xImage.get_columns_better,
-		RenderMode.ROWS_BETTER: xImage.get_row_better
-	}[render_mode]
 	var rects = get_rects.call(image, func(x, i, j): return x == color)
 	for i in range(rects.size()):
 		rects[i].position[1] = image.get_size()[1] - rects[i].position[1] #'cuz godot is top to bottom

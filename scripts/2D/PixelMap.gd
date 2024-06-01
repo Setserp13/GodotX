@@ -13,4 +13,5 @@ func _process(delta):
 		return
 	enabled = false
 	for x in get_children():
-		x.generate(texture_map)
+		if not x.ignore:
+			x.generate(texture_map)
