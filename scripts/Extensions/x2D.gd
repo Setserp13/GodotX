@@ -137,4 +137,4 @@ static func get_intersecting_areas(collider: CollisionShape2D) -> Array:
 	return result
 
 static func aabb(node2):
-	xNode.get_components(node2, Sprite2D).map(func(x): return x2D.get_global_rect(x)).reduce(xRect2.aabb)
+	return xNode.get_components(node2, Sprite2D).map(func(x): return x2D.get_global_rect(x)).reduce(xRect2.aabb)
