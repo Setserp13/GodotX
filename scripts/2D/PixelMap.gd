@@ -13,5 +13,8 @@ func _process(delta):
 		return
 	enabled = false
 	for x in get_children():
-		if not x.ignore:
+		if x is PixelMapItem and not x.ignore:
 			x.generate(texture_map)
+	var bounds = get_or_add_component(self, Bounds2)
+	#print(bounds)
+	bounds.rect = x2D.aabb(self)
