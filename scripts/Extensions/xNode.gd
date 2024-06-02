@@ -9,6 +9,12 @@ static func get_component(node, type): #a component is a child node or itself
 static func get_components(node, type):
 	return ([node] + descendants(node)).filter(func(x): return is_instance_of(x, type))
 
+static func get_or_add_component(node, type):
+	var result = get_component(node, type)
+	if result == null:
+		result = create_child(node, type)
+	return result
+
 static func ancestors(node):
 	var result = []
 	if node.get_parent() != null:
