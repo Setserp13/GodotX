@@ -27,4 +27,4 @@ static func rangef(start, stop, step):
 	return range(ceil((stop - start) / step)).map(func(i): return start + step * i)
 
 static func on_arc(n, r=1.0, start=0.0, size=2.0 * PI): #where start is the start angle and size is the angular size, using default start and size is equal to call on_circle
-	return range(n).map(func(i): return xMath.polar_to_cartesian(r, start + s
+	return range(n).map(func(i): return xMath.polar_to_cartesian(r, start + size * (float(i) / float(n-1))))
