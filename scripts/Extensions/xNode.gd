@@ -1,7 +1,7 @@
 class_name xNode
 
 static func get_component(node, type): #a component is a child node or itself
-	for x in [node] + node.get_children():
+	for x in [node] + descendants(node):#node.get_children():
 		if is_instance_of(x, type):
 			return x
 	return null
