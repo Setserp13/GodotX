@@ -135,3 +135,6 @@ static func get_intersecting_areas(collider: CollisionShape2D) -> Array:
 		if item.collider is Area2D and item.collider != collider.get_parent():
 			result.append(item.collider)
 	return result
+
+static func aabb(node2):
+	get_components(node2, Sprite2D).map(func(x): return x2D.get_global_rect(x)).reduce(xRect2.aabb)
