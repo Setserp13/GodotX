@@ -99,6 +99,9 @@ func generate(texture_map):
 		#print(rects)
 	instantiate_all(rects, self, tile, tiling_per_scale, slicing, Area2D if collision_mode == CollisionMode.AREA else StaticBody2D if collision_mode == CollisionMode.BODY else null, cell_size if use_cell_size else null)
 
+	if top == null:
+		return
+
 	#GENERATE TOP
 	for x in get_children():
 		var sprite = Tiled9SlicedSprite.create(top) #9-sliced
