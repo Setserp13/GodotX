@@ -9,7 +9,12 @@ class_name Bounds2
 		rect = value
 		queue_redraw()
 
-func _draw(): draw_rect(rect, Color(1, 0, 0, 0.5), false)
+func _draw():
+	var parent = get_parent()
+	if parent == null:
+		draw_rect(rect, Color(1, 0, 0, 0.5), false)
+	else:
+		draw_rect(Rect2(rect.position - parent.position, rect.size), Color(1, 0, 0, 0.5), false)
 
 func _notification(what):
 	if what == NOTIFICATION_DRAW:
