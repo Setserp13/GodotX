@@ -24,44 +24,35 @@ func _process(delta):
 	if trigger:
 		process_triggers()
 
+
 func process_collisions():
 	var collisions = x2D.get_collisions(_body)
-	for x in _collisions.filter(func(x): return not collisions.any(func(y): return x.get_collider() == y.get_collider())):
-		_on_collision_exit.invoke(x)
-		xObject.try_call(x.get_collider(), 'on_collision_exit', [_body])
-	for x in collisions.filter(func(x): return not _collisions.any(func(y): return x.get_collider() == y.get_collider())):
-		_on_collision_enter.invoke(x)
-		xObject.try_call(x.get_collider(), 'on_collision_enter', [_body])
-	for x in collisions:
-		_on_collision_stay.invoke(x)
-		xObject.try_call(x.get_collider(), 'on_collision_stay', [_body])
+	process(_collisions.filter(func(x): return not collisions.any(func(y): return x.get_collider() == y.get_collider())), _on_collision_exit, 'on_collision_exit')
+	process(collisions.filter(func(x): return not _collisions.any(func(y): return x.get_collider() == y.get_collider())), _on_collision_enter, 'on_collision_enter')
+	process(collisions, _on_collision_stay, 'on_collision_stay')
 	_collisions = collisions
 
 func process_triggers():
 	var triggers = x2D.get_intersecting_areas(xNode.get_component(_body, CollisionShape2D))
 	#print(triggers)
-	for x in _triggers.filter(func(x): return x not in triggers):
-		_on_trigger_exit.invoke(x)
-		xObject.try_call(x, 'on_trigger_exit', [_body])
-	for x in triggers.filter(func(x): return x not in _triggers):
-		_on_trigger_enter.invoke(x)
-		xObject.try_call(x, 'on_trigger_enter', [_body])
-	for x in triggers:
-		_on_trigger_stay.invoke(x)
-		xObject.try_call(x, 'on_trigger_stay', [_body])
+	process(_triggers.filter(func(x): return x not in triggers), _on_trigger_exit, 'on_trigger_exit')
+	process(triggers.filter(func(x): return x not in _triggers), _on_trigger_enter, 'on_trigger_enter')
+	process(triggers, _on_trigger_stay, 'on_trigger_stay')
 	_triggers = triggers
 
 
 
-
+func process(colliders, inner_call, outer_call):
+	for x in colliders:
+		if x != null:
+			inner_call.invoke(x)
+		if x != null:
+			xObject.try_call(x, outer_call, [_body])
 
 
 
 static func get_or_add(body): #if body already have one, just returns it
-	var result = xNode.get_component(body, CollisionManager2D)
-	if result == null:
-		result = xNode.create_child(body, CollisionManager2D)#, {'_body': body})
-	return result
+	return xNode.get_or_add_component(body, CollisionManager2D)#, {'_body': body})
 
 static func on_collision_enter(body, callback):
 	get_or_add(body)._on_collision_enter.add(callback)
