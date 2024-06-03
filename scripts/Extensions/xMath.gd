@@ -28,3 +28,12 @@ static func rangef(start, stop, step):
 
 static func on_arc(n, r=1.0, start=0.0, size=2.0 * PI): #where start is the start angle and size is the angular size, using default start and size is equal to call on_circle
 	return range(n).map(func(i): return xMath.polar_to_cartesian(r, start + size * (float(i) / float(n-1))))
+
+static func random_in_annulus(inner_radius, radius):
+	return random_on_circle(randf_range(inner_radius, radius))
+
+static func random_in_cirble(radius):
+	return random_in_annulus(0, radius)
+
+static func random_on_circle(radius):
+	return xMath.polar_to_cartesian(radius, randf_range(0, PI * 2))
