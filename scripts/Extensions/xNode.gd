@@ -74,6 +74,14 @@ static func create_node(type, properties={}):
 static func create_child(parent, type, properties={}):
 	return append_child(parent, create_node(type, properties))
 
+static func instantiate_child(parent, prefab):
+	var result = prefab.instantiate()
+	xNode.append_child(parent, result)
+	for x in [result] + xNode.descendants(result):
+		parent.set_editable_instance(x, true)
+	result.name = prefab.get_state().get_node_name(0)
+	return result
+
 static func set_parent(node, value, keep_global_position=true):
 	var global_position = node.global_position
 	var parent = node.get_parent()
