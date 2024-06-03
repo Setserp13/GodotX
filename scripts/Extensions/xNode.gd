@@ -74,11 +74,12 @@ static func create_node(type, properties={}):
 static func create_child(parent, type, properties={}):
 	return append_child(parent, create_node(type, properties))
 
-static func instantiate_child(parent, prefab):
+static func instantiate_child(parent, prefab, editable_children=true):
 	var result = prefab.instantiate()
 	xNode.append_child(parent, result)
-	for x in [result] + xNode.descendants(result):
-		parent.set_editable_instance(x, true)
+	if editable_children:
+		for x in [result] + xNode.descendants(result):
+			parent.set_editable_instance(x, true)
 	result.name = prefab.get_state().get_node_name(0)
 	return result
 
