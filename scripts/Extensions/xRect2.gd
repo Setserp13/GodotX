@@ -43,6 +43,10 @@ static func corners(rect): #bl, tl, br, tr
 			result.append(denormalize_point(rect, Vector2(i,j)))
 	return result
 
+static func mid_edges(rect):
+	return [Vector2(0,0.5), Vector2(1,0.5), Vector2(0.5,0), Vector2(0.5,1)].map(func(x):
+		return xRect2.denormalize_point(rect, x))
+
 static func left_right_coincide(a, b):
 	return xArray.contains(left(a), right(b)) or xArray.contains(right(a), left(b))
 
