@@ -138,3 +138,10 @@ static func get_intersecting_areas(collider: CollisionShape2D) -> Array:
 
 static func aabb(node2):
 	return xNode.get_components(node2, Sprite2D).map(func(x): return x2D.get_global_rect(x)).reduce(xRect2.aabb)
+
+static func position_bounds(rect, object_size, pivot=Vector2.ONE * 0.5):
+	var l = object_size.x * pivot.x
+	var r = object_size.x - l
+	var d = object_size.y * pivot.y
+	var u = object_size.y - d
+	return xRect2.absolute_padding(rect, l, r, d, u)
