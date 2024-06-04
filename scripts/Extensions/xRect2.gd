@@ -30,6 +30,7 @@ static func bottom_left(rect): return denormalize_point(rect, Vector2(0,0))
 static func bottom_right(rect): return denormalize_point(rect, Vector2(1,0))
 static func top_left(rect): return denormalize_point(rect, Vector2(0,1))
 static func top_right(rect): return denormalize_point(rect, Vector2(1,1))
+static func center(rect): return denormalize_point(rect, Vector2(0.5,0.5))
 
 static func bottom(rect): return [bottom_left(rect), bottom_right(rect)]
 static func top(rect): return [top_left(rect), top_right(rect)]
