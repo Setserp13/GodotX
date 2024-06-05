@@ -10,10 +10,6 @@ class_name PixelMapItem2D
 @export var cell_size = Vector2(100, 100)
 @export var top : Texture2D
 
-static func get_cell(texture, cell_count, index):
-	var cell_size = texture.get_size() / cell_count
-	return Rect2(cell_size * index, cell_size)
-
 static func set_rect(rect, body, cell_size=null):
 	var sprite = xNode.get_component(body, Sprite2D)
 	var base_size = x2D.get_region_size(sprite) if cell_size == null else cell_size
@@ -60,7 +56,7 @@ static func instantiate_all(rects, parent, tile, tiling_per_scale=Vector2.ONE, s
 			var index = Vector2.ZERO
 			for j in range(2):
 				index[j] = randi_range(0, slicing[j] - 1)
-			region_rect = get_cell(tile, slicing, index)
+			region_rect = Grid2.get_cell(tile.get_size(), slicing, index)
 			#print([tile.get_size(), index, region_rect])
 		instantiate_one(rects[i], parent, tile, tiling_per_scale, region_rect, collision_type, cell_size)
 
