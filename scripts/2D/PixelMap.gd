@@ -1,7 +1,7 @@
 @tool
 class_name PixelMap
 
-extends Node2D
+extends Node#2D
 
 @export var texture_map : Texture2D
 @export var enabled = false
@@ -15,6 +15,6 @@ func _process(delta):
 	for x in get_children():
 		if x is PixelMapItem and not x.ignore:
 			x.generate(texture_map)
-	var bounds = xNode.get_or_add_component(self, Bounds2)
+	#var bounds = xNode.get_or_add_component(self, Bounds2)
 	#print(bounds)
-	bounds.rect = x2D.aabb(self)
+	#bounds.rect = x2D.aabb(self)
