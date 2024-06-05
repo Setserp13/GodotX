@@ -1,5 +1,5 @@
 @tool
-extends PixelMapItem
+extends PixelMapItem2D
 
 class_name PixelMapItem16Sliced
 
@@ -36,12 +36,10 @@ func sliced16(image, predicate, slices): #predicate is like (pixel) -> bool
 	for i in range(masks.size()):
 		var current_mask = masks[i]
 		var slice = slices[i]
-		var rects = xImage.get_rows_better(image, func(x, i, j):
+		var rects = get_rects(RenderMode.ROWS_BETTER, image, func(x, i, j):
 			if not predicate.call(x):
 				return false
 			return current_mask == get_mask(image, predicate, i, j))
-		for j in range(rects.size()):
-			rects[j].position[1] = image.get_size()[1] - rects[j].position[1] #'cuz godot is top to bottom
 		instantiate_all(rects, self, tile, tiling_per_scale, slice, Area2D if collision_mode == CollisionMode.AREA else StaticBody2D if collision_mode == CollisionMode.BODY else null, cell_size if use_cell_size else null)
 
 func generate(texture_map):

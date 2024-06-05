@@ -1,5 +1,5 @@
 @tool
-extends PixelMapItem
+extends PixelMapItem2D
 
 class_name PixelMapItemBorder
 
