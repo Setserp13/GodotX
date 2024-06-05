@@ -45,4 +45,4 @@ func sliced16(image, predicate, slices): #predicate is like (pixel) -> bool
 func generate(texture_map):
 	xNode.clear(self)
 	var image = texture_map.get_image()
-	sliced16(image, func(x): return x == color, get_cells(tile, Vector2(4,4)))
+	sliced16(image, func(x): return x == color, Grid2.by_cell_count(tile.get_size(), Vector2(4,4)))
