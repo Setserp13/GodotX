@@ -18,9 +18,9 @@ func point_to_cell(value):
 func cell(i, j):
 	return Rect2(self.cell_to_point(Vector2(i,j)), self.cell_size)
 
-static func byCellCount(size, cellCount): return byCellSize(size, size / cellCount)
+static func by_cell_count(size, cellCount): return by_cell_size(size, size / cellCount)
 
-static func byCellSize(size, cellSize):
+static func by_cell_size(size, cellSize):
 	var result = []
 	for x in xMath.rangef(0, size[0], cellSize[0]):
 		for y in xMath.rangef(0, size[1], cellSize[1]):
