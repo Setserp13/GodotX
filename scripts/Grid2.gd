@@ -18,11 +18,11 @@ func point_to_cell(value):
 func cell(i, j):
 	return Rect2(self.cell_to_point(Vector2(i,j)), self.cell_size)
 
-static func by_cell_count(size, cellCount): return by_cell_size(size, size / cellCount)
+static func by_cell_count(size, cell_count): return by_cell_size(size, size / cell_count)
 
-static func by_cell_size(size, cellSize):
+static func by_cell_size(size, cell_size):
 	var result = []
-	for x in xMath.rangef(0, size[0], cellSize[0]):
-		for y in xMath.rangef(0, size[1], cellSize[1]):
-			result.append(Rect2(x, y, min(cellSize[0], size[0] - x), min(cellSize[1], size[1] - y)))
+	for x in xMath.rangef(0, size[0], cell_size[0]):
+		for y in xMath.rangef(0, size[1], cell_size[1]):
+			result.append(Rect2(x, y, min(cell_size[0], size[0] - x), min(cell_size[1], size[1] - y)))
 	return result
