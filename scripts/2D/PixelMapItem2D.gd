@@ -10,13 +10,6 @@ class_name PixelMapItem2D
 @export var cell_size = Vector2(100, 100)
 @export var top : Texture2D
 
-static func get_cells(texture, cell_count):
-	var result = []
-	for i in range(cell_count[0]):
-		for j in range(cell_count[1]):
-			result.append(get_cell(texture, cell_count, Vector2(i, j)))
-	return result
-	
 static func get_cell(texture, cell_count, index):
 	var cell_size = texture.get_size() / cell_count
 	return Rect2(cell_size * index, cell_size)
