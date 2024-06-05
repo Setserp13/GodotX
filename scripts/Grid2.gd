@@ -18,6 +18,10 @@ func point_to_cell(value):
 func cell(i, j):
 	return Rect2(self.cell_to_point(Vector2(i,j)), self.cell_size)
 
+static func get_cell(size, cell_count, index):
+	var cell_size = size / cell_count
+	return Rect2(cell_size * index, cell_size)
+
 static func by_cell_count(size, cell_count): return by_cell_size(size, size / cell_count)
 
 static func by_cell_size(size, cell_size):
