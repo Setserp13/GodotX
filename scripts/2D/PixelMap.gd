@@ -1,7 +1,7 @@
 @tool
 class_name PixelMap
 
-extends Node2D
+extends Node#2D
 
 @export var texture_map : Texture2D
 @export var enabled = false
