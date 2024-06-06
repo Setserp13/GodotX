@@ -32,7 +32,7 @@ static func on_arc(n, r=1.0, start=0.0, size=2.0 * PI): #where start is the star
 static func random_in_annulus(inner_radius, radius):
 	return random_on_circle(randf_range(inner_radius, radius))
 
-static func random_in_cirble(radius):
+static func random_in_circle(radius):
 	return random_in_annulus(0, radius)
 
 static func random_on_circle(radius):
