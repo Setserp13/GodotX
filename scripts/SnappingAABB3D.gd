@@ -3,34 +3,23 @@ extends Node
 
 class_name SnappingAABB3D
 
-var _axes = {'X': true, 'Y': true, 'Z': true, 'XY': false, 'XZ': false, 'YZ': false, 'XYZ': false}
+var _axes
 
 func _get(property):
-	if property in _axes:
+	if property in _axes._axes:
 		return _axes[property]
 		
 func _set(property, value):
-	if property in _axes:
+	if property in _axes._axes:
 		_axes[property] = value
-		update_others(property)
 		return true
 	return false
 
-#SET OPERATIONS WITH STRINGS
-static func contains(a, b):
-	for i in range(b.length()):
-		if b[i] not in a:
-			return false
-	return true
-
-func update_others(k):
-	if _axes[k]:
-		for l in _axes:
-			if k != l and (contains(str(k), l) or contains(l, str(k))):
-				_axes[l] = false
+func _init():
+	_axes = SnappingAxes.new('XYZ')
 
 func _get_property_list():
-	return _axes.keys().map(
+	return _axes._axes.keys().map(
 		func(x):
 			return {'name': x, 'type': TYPE_BOOL}
 	)
@@ -78,10 +67,8 @@ func _process(delta):
 	var selection = EditorInterface.get_selection().get_selected_nodes()
 	var aabbs = get_children().filter(func(x): return x not in selection).map(func(x): return x3D.aabb(x))
 
-	var axes_groups = []
-	for k in _axes:
-		if _axes[k]:
-			axes_groups.append(xArray.indices(['X', 'Y', 'Z'], func(x): return x in k))
+	var axes_groups = _axes.to_indices()
+	#print(axes_groups)
 
 	for cur in selection:
 		if cur.get_parent() != self:
