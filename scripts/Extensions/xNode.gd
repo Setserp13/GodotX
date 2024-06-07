@@ -92,3 +92,14 @@ static func set_parent(node, value, keep_global_position=true):
 		value.add_child(node)
 	if keep_global_position:
 		node.global_position = global_position
+
+static func children_of_type(node, type):
+	return node.get_children().filter(func(x): return is_instance_of(x, type))
+
+static func resize_by_type(node, new_size, type):
+	var children = children_of_type(node, type)
+	for i in range(children.size(), new_size):
+		xNode.create_child(node, type)
+	for i in range(children.size()-1, new_size-1, -1):
+		xNode.destroy(children[i])
+	return children_of_type(node, type)
