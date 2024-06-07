@@ -76,7 +76,7 @@ func _process(delta):
 	if not enabled or not Engine.is_editor_hint():
 		return
 	var selection = EditorInterface.get_selection().get_selected_nodes()
-	var aabbs = get_children().filter(func(x): return x not in selection).map(func(x): return x2D.aabb(x))
+	var aabbs = get_children().filter(func(x): return x not in selection).map(func(x): return x3D.aabb(x))
 
 	var axes_groups = []
 	for k in _axes:
@@ -87,7 +87,7 @@ func _process(delta):
 		if cur.get_parent() != self:
 			continue
 		for tar in aabbs:
-			var from = get_points(x2D.aabb(cur), from_corner, from_mid_edge, from_face_centers, from_center)
+			var from = get_points(x3D.aabb(cur), from_corner, from_mid_edge, from_face_centers, from_center)
 			var to = get_points(tar, to_corner, to_mid_edge, to_face_centers, to_center)
 			for axes in axes_groups:
-				cur.global_position += get_snap_translation(from, to, snap_distance, axes)
+				cur.global_position += get_snap_translation(from, to, snap_distance, axes, Vector3.ZERO)
