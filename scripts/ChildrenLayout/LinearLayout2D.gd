@@ -1,4 +1,4 @@
-extends ChildrenLayout
+extends PropertyLayout
 
 class_name LinearLayout2D
 
@@ -7,4 +7,4 @@ class_name LinearLayout2D
 @export var cell_size = 1
 @export var spacing = 0
 	
-func get_position(i): return direction * (offset + (cell_size + spacing) * i)
+func get_target(i): return direction * (offset + (cell_size + spacing) * i)

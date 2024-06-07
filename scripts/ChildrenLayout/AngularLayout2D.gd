@@ -1,4 +1,4 @@
-extends CircularLayout2D
+extends PropertyLayout
 
 class_name AngularLayout2D
 
@@ -7,4 +7,9 @@ class_name AngularLayout2D
 @export var translation_after_highlighted = -0.05 #from -2PI to 2PI
 #@export var z_delta = -0.01
 
-func get_rotation(i): return angle - PI / 2
+func _ready():
+	property = 'rotation'
+
+func get_target(i):
+	var angle = float(i) / float(children().size())
+	return angle - PI / 2

@@ -1,4 +1,4 @@
-extends ChildrenLayout
+extends PropertyLayout
 
 class_name CircularLayout2D
 
@@ -7,10 +7,10 @@ class_name CircularLayout2D
 var _cell_size
 
 func _ready():
-	_cell_size = (PI * 2) / (get_children().filter(func(x): return x.visible).size() if ignore_inactive else get_children().size())
+	_cell_size = (PI * 2) / children().size()
 
 func on_children_changed():
 	super().on_children_changed()
 	_ready()
 
-func get_position(i): return xMath.polar_to_cartesian(radius, _cell_size * i) + center
+func get_target(i): return xMath.polar_to_cartesian(radius, _cell_size * i) + center
