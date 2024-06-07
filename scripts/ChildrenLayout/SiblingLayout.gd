@@ -23,8 +23,9 @@ func _process(delta):
 
 func children():
 	var result = get_parent().get_children()
+	result = filter_children(result)
 	result = result.filter(func(x): return x.visible) if ignore_inactive else result
-	return filter_children(result)
+	return result
 
 func filter_children(children):
 	return children.filter(func(x): return x is Node2D)
