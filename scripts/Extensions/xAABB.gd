@@ -36,3 +36,6 @@ static func mid_edges(rect):
 static func face_centers(rect):
 	var p = edges(rect, 1)
 	return xArray.to_distinct(range(12).map(func(i): return (p[i*2] + p[i*2+1]) * 0.5))
+
+static func center(rect):
+	return xRect2.denormalize_point(rect, Vector3.ONE * 0.5)
