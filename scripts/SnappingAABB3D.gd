@@ -3,66 +3,39 @@ extends Node
 
 class_name SnappingAABB3D
 
+var _axes = {'X': true, 'Y': true, 'Z': true, 'XY': false, 'XZ': false, 'YZ': false, 'XYZ': false}
+
+func _get(property):
+	if property in _axes:
+		return _axes[property]
+		
+func _set(property, value):
+	if property in _axes:
+		_axes[property] = value
+		update_others(property)
+		return true
+	return false
+
+#SET OPERATIONS WITH STRINGS
+static func contains(a, b):
+	for i in range(b.length()):
+		if b[i] not in a:
+			return false
+	return true
+
+func update_others(k):
+	if _axes[k]:
+		for l in _axes:
+			if k != l and (contains(str(k), l) or contains(l, str(k))):
+				_axes[l] = false
+
+func _get_property_list():
+	return _axes.keys().map(
+		func(x):
+			return {'name': x, 'type': TYPE_BOOL}
+	)
+
 @export var snap_distance = 10
-
-@export var x = true:
-	set(value):
-		x = value
-		if value:
-			xy = false
-			xz = false
-			xyz = false
-			
-@export var y = true:
-	set(value):
-		y = value
-		if value:
-			xy = false
-			yz = false
-			xyz = false
-
-@export var z = true:
-	set(value):
-		z = value
-		if value:
-			xz = false
-			yz = false
-			xyz = false
-
-@export var xy = true:
-	set(value):
-		xy = value
-		if value:
-			x = false
-			y = false
-			xyz = false
-
-@export var xz = true:
-	set(value):
-		xz = value
-		if value:
-			x = false
-			z = false
-			xyz = false
-
-@export var yz = true:
-	set(value):
-		yz = value
-		if value:
-			y = false
-			z = false
-			xyz = false
-
-@export var xyz = true:
-	set(value):
-		xyz = value
-		if value:
-			x = false
-			y = false
-			z = false
-			xy = false
-			xz = false
-			yz = false
 
 @export var from_corner = true
 @export var from_mid_edge = true
@@ -104,26 +77,17 @@ func _process(delta):
 		return
 	var selection = EditorInterface.get_selection().get_selected_nodes()
 	var aabbs = get_children().filter(func(x): return x not in selection).map(func(x): return x2D.aabb(x))
+
+	var axes_groups = []
+	for k in _axes:
+		if _axes[k]:
+			axes_groups.append(xArray.indices(['X', 'Y', 'Z'], func(x): return x in k))
+
 	for cur in selection:
 		if cur.get_parent() != self:
 			continue
 		for tar in aabbs:
 			var from = get_points(x2D.aabb(cur), from_corner, from_mid_edge, from_face_centers, from_center)
 			var to = get_points(tar, to_corner, to_mid_edge, to_face_centers, to_center)
-			var axes_groups = []
-			if xyz:
-				axes_groups.append([0,1,2])
-			if xy:
-				axes_groups.append([0,1])
-			if xz:
-				axes_groups.append([0,2])
-			if yz:
-				axes_groups.append([1,2])
-			if x:
-				axes_groups.append([0])
-			if y:
-				axes_groups.append([1])
-			if z:
-				axes_groups.append([2])
 			for axes in axes_groups:
 				cur.global_position += get_snap_translation(from, to, snap_distance, axes)
