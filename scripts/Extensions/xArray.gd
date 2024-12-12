@@ -7,9 +7,9 @@ static func indices(array, predicate):
 			result.push_back(i)
 	return result
 
-static func foreach(array, action):
+static func foreach(array, action, arg_count=2):
 	for i in range(array.size()):
-		action.call(array[i], i)
+			action.call(array[i], i) if arg_count == 2 else action.call(array[i])
 
 static func fromfun(count, fun):
 	var result = []
