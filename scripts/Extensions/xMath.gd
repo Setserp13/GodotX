@@ -1,8 +1,8 @@
 class_name xMath
 
-static func lerp(a, b, t): return a * (1 - t) + b * t
+#static func lerp(a, b, t): return a * (1 - t) + b * t
 
-static func inverse_lerp(a, b, c): return (c - a) / (b - a)
+#static func inverse_lerp(a, b, c): return (c - a) / (b - a)
 
 static func arc(c, s): #cos, sin
 	var result = acos(c)
