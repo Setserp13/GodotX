@@ -5,4 +5,4 @@ var size
 
 func _init(position, size):
 	self.position = position
-  self.size = size
+	self.size = size
