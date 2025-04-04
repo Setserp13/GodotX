@@ -1,5 +1,12 @@
 class_name xArray
 
+static func get_items(array, indices): return indices.map(func(x): return array[x])
+
+static func get_randoms(array, count):
+	var result = range(array.size())
+	result.shuffle()
+	return get_items(array, result.slice(0, count))
+
 static func indices(array, predicate):
 	var result = []
 	for i in range(array.size()):
