@@ -1,0 +1,27 @@
+extends FuncObject
+
+class_name MoveTowards
+
+var node
+var targets
+var speed
+var index
+var loop
+
+func _init(node, targets, speed : float, loop=true, start_index=0):
+	self.node = node
+	self.targets = targets
+	self.speed = speed
+	self.index = start_index
+	self.loop = loop
+
+func invoke(delta):
+	var target = targets[index]
+	if node.global_position == target:
+		if loop:
+			index = (index + 1) % targets.size()
+		else:
+			index += 1
+			return index > targets.size() - 1
+	else:
+		node.global_position = node.global_position.move_towards(target, speed * delta)

@@ -1,0 +1,50 @@
+extends FuncObject
+
+class_name MoveTowards
+
+var node
+var target
+var speed
+var get_target
+
+func _init(node, target, speed : float):
+	self.node = node
+	if target is Node:
+		self.get_target = func(): return target.global_position
+	else:
+		self.get_target = func(): return target
+	self.speed = speed
+
+func set_t(value):
+	t = value
+	return self
+
+func set_ease(curve):
+	ease = func(t): return ease(t, curve)
+	return self
+
+func set_duration(value):
+	step = xMath.invert(value)
+	return self
+
+func has_finished():
+	return t >= 1.0
+
+func invoke(delta):
+	t = clamp(t + delta * step, 0.0, 1.0)
+	setter.call(lerp.call(start, stop, ease.call(t)))
+	update.invoke(t)
+	return has_finished()
+
+func set_speed_based(value):
+	if value:
+		set_speed(step)
+	return self
+
+func set_speed(value : float):
+	set_duration(to_duration.call(start, stop, duration))
+	return self
+
+func start_from(value):
+	t = ease.time_of(inverse_lerp.call(start, stop, value))
+	return self
